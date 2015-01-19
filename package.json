@@ -1,0 +1,13 @@
+{
+  "name": "SpellingField",
+  "version": "0.0.1",
+  "description": "",
+  "dependencies": {},
+  "devDependencies": {
+    "server-jsx": ">=0.0.2",
+    "envify": "~1.2.0",
+    "react": "*",
+    "react-addons": "*",
+    "react-tools": "*"
+  }
+}

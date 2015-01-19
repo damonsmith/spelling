@@ -1,0 +1,253 @@
+/* Individual icon images are SVGs which are vectors and therefore are small file-size,
+   and resize to any size on screen nicely.*/
+.icon.anchor  {background-image: url(../images/icons/white/anchor.svg);}
+.icon.bell    {background-image: url(../images/icons/white/bell.svg);}
+.icon.bitcoin {background-image: url(../images/icons/white/bitcoin.svg);}
+.copyleft {background-image: url(../images/icons/white/copyleft.svg);}
+
+.hidden {
+	display: none;
+}
+
+footer {
+	background-color: black;
+}
+
+section {
+	width: 80rem;
+}
+
+h1 {
+	color: white;
+	background-color: rgb(56, 174, 183);
+}
+
+header {
+	background-color: #505C86;
+	color: white;
+}
+
+input, textarea {
+	background-color: #eee;
+	color: black;
+	border: 1px solid #666;
+	border-color: #779DDE;
+}
+
+textarea {
+	width: 25rem;
+	height: 26.7rem;
+	font-size: 1rem;
+	margin: 0rem 0 0.5rem 0;
+}
+
+select {
+	width: 8rem;
+	font-size: 1.2rem;
+	padding: 0.4rem;
+	border: none;
+	background-color: #779DDE;
+	color: white;
+	border-radius: 4px 0 0 4px;
+}
+
+button {
+	display: inline-block;
+	font-size: 1.4rem;
+	background-color: #FF5C26;
+	border: none;
+	color: white;
+	padding: 0.6rem;
+	
+}
+
+button.large {
+	font-size: 1.4rem;
+}
+
+.disabled {
+	background-color: #999;
+}
+
+.word-item {
+	clear: both;
+	margin: 1rem 0;
+}
+
+.correctionsTable {
+	width: 100%;
+}
+
+.correctionsTable td {
+	width: 33%;
+	text-align: center;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.correctionsTable th {
+	font-weight: normal;
+	padding: 0.3rem;
+	text-align: center;
+	background-color: #505C86;
+	color: white;
+	border-right: 0.25rem solid white;
+	border-left: 0.25rem solid white;
+	
+}
+
+.correctionsTable .example-words-row {
+	background-color: rgb(225, 230, 236);
+	height: 2.6rem;
+}
+
+.correctionsTable .input-fields-row {
+	background-color: rgb(182, 210, 222);
+}
+
+.correctionsTable .input-fields-row td {
+	padding: 0.2rem;
+}
+
+
+
+.correctionsTable .example-words-row td {
+	padding: 0rem;
+	border-bottom: 0.5rem solid white;
+}
+
+
+.correctionsTable .example-words-row h2 {
+	display: block;
+	float: left;
+	font-size: 1rem;
+	font-weight: normal;
+	background-color: #505C86;
+	border-radius: 0 0 0.4rem 0;
+	color: white;
+	margin: 0 1rem 0 0;
+	padding: 0.4rem 0.2rem 0.2rem;	
+}
+
+.correctionsTable .example-words-row div {
+	float: left;
+	font-size: 1rem;
+	background-color: #B9D5CF;
+	margin: 0.2rem 0.5rem 0.5rem 0;
+	padding: 0.2rem 1.5rem 0 0.2rem;
+	border-radius: 0.4rem;
+	box-shadow: 3px 3px 4px #505C86;
+	cursor: pointer;
+}
+
+.correctionsTable .example-words-row div:hover {
+	background-color: #CBEAE3;
+	background-image: url(images/close-icon.png);
+	background-position: right;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+td {
+	vertical-align: top;
+}
+
+
+.word-item .word-column {
+	float: left;
+}
+
+input {
+	width: 12rem;
+	padding: 0.5rem;
+	font-size: 1.2rem;
+	background-color: white;
+}
+
+.example-search-container {
+	width: 100%;
+	position: relative;
+	text-align: right;
+}
+
+input.example-search {
+	width: 7rem;
+}
+
+.results-search {
+	top: 0.5rem;
+	right: 4px;
+	position: absolute;
+	border: none;
+	padding: 0.7rem;
+	background-image: url(images/search.png);
+	background-size: contain;
+	background-color: #ffffff;
+}
+
+.examples-list {
+	height: 10rem;
+	clear: both;
+	overflow-y: scroll;
+	display: none;
+	text-align: left;
+
+}
+
+.positioner {
+	position: relative;
+	z-index: 2;
+}
+
+.dropdown-list {
+	background-color: white;
+	box-shadow: 2px 2px 5px #000;
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 0 0.5rem;
+	width: 100%;
+	height: 9rem;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	cursor: pointer;
+	text-align: left;
+}
+
+
+.dropdown-list > div:hover {
+	background-color: #eee;
+	background-image: url(images/add.png);
+	background-size: contain;
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+
+.centering {
+	text-align: center;
+}
+
+.add-word-button {
+	
+}
+
+.results-display {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	background-color:rgba(0, 0, 0, 0.5);
+}
+
+
+.results-display table {
+	margin: 8rem auto 0 auto;
+	background-color: #fff;
+}
+
+.results-display table tr > * {
+	padding: 0.5rem;
+}
+

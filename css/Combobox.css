@@ -1,0 +1,164 @@
+.Combobox {
+	position: relative;
+	display: inline-block;	
+    min-width: 150px;
+    max-width: 500px;
+
+    z-index: 10000;
+
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+.Combobox__input {
+
+    border-radius: 4px;
+    color: #555555;
+    background-color: #ffffff;
+    background-image: none;
+
+    outline: none;
+}
+
+/* Button */
+.Combobox__button {
+
+	font-size: 1.2rem;
+    width: 2rem;
+
+    margin: 0;
+    padding: 0.5rem;
+
+	border: none;
+	border-radius: 0 4px 4px 0;
+    color: white;
+    background-color: #779DDE;
+
+    cursor: pointer;
+    user-select: none;
+    
+    position: absolute;
+    top: 1px;
+    right: 0;
+}
+
+.Combobox__button:hover {
+    background-color: #9EBCF0;
+}
+
+.Combobox__button:active {
+    border-width: 4px 2px 1px 1px;
+}
+
+/* Dropdown */
+.Combobox__dropdown {
+    display: block;
+    position: absolute;
+    text-align: left;
+
+    top: 100%;
+    left: 0;
+    width: 100%;
+
+    margin: -2px 0 0 0;
+    padding: 0;
+
+    border-style: solid;
+    border-color: #e2e2e2;
+    border-width: 0 1px 4px 2px;
+    border-radius: 0 0  4px 4px;
+}
+
+.Combobox__dropdownWrapper {
+    display: block;
+    position: relative;
+
+    width: 100%;
+    max-height: 200px;
+
+    overflow-y: scroll;
+
+    margin: 2px 0 0 0;
+    padding: 6px 0 3px 0;
+    background: #fff;
+
+}
+
+.Combobox__dropdownList {
+    display: block;
+    position: relative;
+
+    top: 0;
+    left: 0;
+
+    overflow: hidden;
+
+    margin: 0 0 0 0;
+    padding: 0;
+
+    color: #999;
+    font-size: 12px;
+    letter-spacing: 0.05ex;
+    line-height: 1.42857143;
+}
+
+.Combobox__dropdownOption {
+    display: block;
+
+    margin: 0;
+    padding: 6px 12px;
+
+    cursor: pointer;
+}
+
+.Combobox__dropdownOption:hover {
+    background-color: #f7f7f7;
+}
+
+.Combobox__dropdownOption_selected {
+    font-weight: bold;
+    color: #555;
+    background-color: #f7f7f7;
+}
+
+/* Open / Close */
+.Combobox .Combobox__dropdown {
+    display: block;
+}
+
+.Combobox_closed {
+    z-index: inherit;
+}
+
+.Combobox_closed .Combobox__dropdown {
+    display: none;
+}
+
+/* Enabled / Disabled */
+.Combobox_disabled {
+    cursor: not-allowed;
+}
+
+.Combobox_disabled .Combobox__dropdown {
+    display: none;
+}
+
+.Combobox_disabled .Combobox__input {
+    color: #888;
+    background-color: #f8f8f8;
+
+    cursor: not-allowed;
+}
+
+.Combobox_disabled .Combobox__button,
+.Combobox_disabled .Combobox__button:hover,
+.Combobox_disabled .Combobox__button:active {
+    border-width: 1px 1px 4px 2px;
+
+    color: #888;
+    background-color: #eee;
+
+    cursor: not-allowed;
+}

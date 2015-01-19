@@ -1,0 +1,145 @@
+/* Set all block elements to box-sizing: border-box. */
+article, aside, footer, header, h1, h2, h3, h4, hgroup, nav, section, div {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.right {float: right;}
+
+/* Remove the browser's built in padding and margin, setup defaults for font. */
+body {
+    padding: 0;
+    margin: 0;
+    font-family: arial;
+    font-size: 1.4rem;
+}
+
+html, body {
+	height: 100%;
+}
+
+.scroll-container {
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 2rem;
+}
+
+/* Some standard header font sizes, just so they're explicit and won't change across browsers */
+h1 {font-size: 2rem}
+h2 {font-size: 1.8rem}
+h3 {font-size: 1.6rem}
+h4 {font-size: 1.4rem}
+
+/* Centers the article area in the middle of the screen */
+section {
+    margin: auto;
+}
+
+/* This clear style may be applied to any html element to move
+   it underneath other floated elements */
+.clear {
+    clear: both;
+}
+
+@media (max-width: 50rem) {
+    .content article {
+        width: 100%;
+    }
+}
+
+/* This is all of the styling for the header/logo area. It has a maximum
+   width to match the articles. The background directives could be collapsed too.
+*/
+h1 {
+    max-width: 78rem;
+    min-width: 25rem;
+    margin: 0rem auto;
+    line-height: 3rem;
+    background-size: contain;
+    height: 3rem;
+    background: #333;
+    text-align: center;
+}
+
+
+/*
+   These three rules are used to center the columns. The section
+   is made into an inline-block element and then text aligned center
+   with the centering class. The columns are floated left side-by-side
+   inside this section element with 50% width each.
+
+   The section doesn't always need to specify a max-width but it makes
+   the layout more solid in some browsers.
+*/
+section {
+    display: inline-block;
+    max-width: 80rem;
+}
+
+.centering {text-align: center;}
+
+.column {
+    float: left;
+    text-align: left;
+    min-width: 25rem;
+    max-width: 80rem;
+    width: 100%;
+}
+
+/* This naming scheme is lifted from PureCSS, column-1-2 is half or 50%, -1-3 is 1/3 or 33%,
+   -3-4 is 75%, etc.
+   The max-widths are set to a fixed em size so if you change the max page width you have
+    to recalculate these too. (maybe try something with even 3rds and 4ths, like 84rem.
+ */
+.column-1-2 {width: 50%; max-width: 40rem;}
+.column-1-3 {width: 33%; max-width: 26.5rem;}
+.column-1-4 {width: 25%; max-width: 20rem;}
+.column-2-3 {width: 66%; max-width: 53rem;}
+.column-3-4 {width: 75%; max-width: 60rem;}
+
+/* To add gaps around articles we can't use margin as it affects the width, so instead
+   we can use padding on the article elements to add a gap, add a wrapper element inside
+   the article and style that with a background.
+*/
+article {
+    padding: 1rem;
+}
+
+/* This directive says that when the width is below 51rem the columns should lose their float
+   and width which means they will just take up the full width of their parent.
+
+   The article elements lose their side padding too below 51rem.
+*/
+@media (max-width: 51rem) {
+    .column {
+        width: inherit;
+        float: none;
+    }
+    article {padding: 1rem 0;}
+}
+
+/* This is the wrapper for the article content, it allows us to have a different background
+   for the article body and a bit of extra padding between the article body.*/
+article .content {
+    padding: 0.5rem;
+}
+
+article header {
+	padding: 0.3rem;
+}
+
+/* The height here must match the padding-bottom on the .content selector above. Which means
+   unfortunately the footer must be a fixed rem height, where it would be nice to just let it wrap
+   it's contents if CSS allowed us to. */
+footer {
+    height: 2rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0.8rem;
+}
+
