@@ -1,20 +1,19 @@
-namespace("spell.service");
 
-spell.service.SpellingService = {
+var SpellingService = {
 };
 
-spell.service.SpellingService.check = function(text, successHandler, errorHandler) {
+SpellingService.check = function(text, successHandler, errorHandler) {
 	
-	spell.service.SpellingService.send({"text": text}, 'wordsearch/spellcheck.php', successHandler, errorHandler);
+	SpellingService.send({"text": text}, 'wordsearch/spellcheck.php', successHandler, errorHandler);
 };
 
-spell.service.SpellingService.getExamples = function(searchType, searchTerm, successHandler, errorHandler) {
+SpellingService.getExamples = function(searchType, searchTerm, successHandler, errorHandler) {
 	
-	spell.service.SpellingService.send({"searchType": searchType, "searchTerm": searchTerm}, 'wordsearch/words.php', successHandler, errorHandler);
+	SpellingService.send({"searchType": searchType, "searchTerm": searchTerm}, 'wordsearch/words.php', successHandler, errorHandler);
 	
 };
 
-spell.service.SpellingService.send = function(data, url, successHandler, errorHandler) {
+SpellingService.send = function(data, url, successHandler, errorHandler) {
 	var params = JSON.stringify(data);
 	var req = new XMLHttpRequest();
 	req.open("POST", url, true);
@@ -27,3 +26,4 @@ spell.service.SpellingService.send = function(data, url, successHandler, errorHa
 	req.send(params);
 };
 
+module.exports = SpellingService;

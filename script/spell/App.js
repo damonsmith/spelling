@@ -1,10 +1,18 @@
-namespace("spell");
+var SpellingService = require("./service/SpellingService.js");
+if (typeof(window) == 'undefined') {
+	var React = require('react');
+}
+else {
+	var React = window.React;
+}
+var templates = require('./templates.js');
 
-spell.App = React.createClass({
+var App = React.createClass({
 	
 	blankRow: {word: "", suggestions: []},
 	
 	render: function() {
+		console.log("RENDER");
 		return templates.App.bind(this)();
 	},
 	
@@ -16,7 +24,7 @@ spell.App = React.createClass({
 	},
 	
 	submitStory: function(text) {
-		spell.service.SpellingService.check(
+		SpellingService.check(
 			text, 
 			this.updateSpellingCorrections.bind(this), 
 			this.handleError.bind(this));
@@ -35,9 +43,13 @@ spell.App = React.createClass({
 	
 });
 
-addEventListener("load", function() {
-	React.render(
-		React.createElement(spell.App, {}),
-		document.getElementById('app-section')	
-	);
-});
+module.exports = App;
+
+if (typeof(window) !== 'undefined') {
+	window.addEventListener("load", function() {
+		React.render(
+			React.createElement(App, {}),
+			document.getElementById('app-section')	
+		);
+	});
+}

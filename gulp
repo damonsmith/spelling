@@ -1,0 +1,7 @@
+#!/bin/bash
+
+GULP_DIR=./node_modules/gulp-cli/bin
+
+nodejs $GULP_DIR/gulp $@
+
+

@@ -1,6 +1,13 @@
-namespace("spell");
+if (typeof(window) == 'undefined') {
+	var React = require('react');
+}
+else {
+	var React = window.React;
+}
 
-spell.CorrectionList = React.createClass({
+var templates = require('./templates.js');
+
+module.exports = React.createClass({
 	
 	render: function() {
 		return templates.CorrectionList.bind(this)();

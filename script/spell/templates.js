@@ -1,6 +1,19 @@
-var templates = templates || {};
+if (typeof(window) == 'undefined') {
+	var React = require('react');
+}
+else {
+	var React = window.React;
+}
 
-templates.App = function() {
+var StoryWriter = require("./StoryWriter.js");
+var CorrectionList = require("./CorrectionList.js");
+var CorrectionEntry = require("./CorrectionEntry.js");
+var Combobox = require("./Combobox.js");
+var ResultsList = require("./ResultsList.js");
+
+
+
+exports.App = function() {
 
 	return (
 		<span>
@@ -10,7 +23,7 @@ templates.App = function() {
 						<header>
 							Story Text
 						</header>
-						<spell.StoryWriter submitStory={this.submitStory}/>
+						<StoryWriter submitStory={this.submitStory}/>
 						<div className="clear"></div>
 					</div>
 				</article>
@@ -20,7 +33,7 @@ templates.App = function() {
 				<article>
 					<div>
 						<div className="word-column">
-							<spell.CorrectionList corrections={this.state.corrections}/>
+							<CorrectionList corrections={this.state.corrections}/>
 						</div>
 						<div className="clear"></div>
 					</div>
@@ -32,7 +45,7 @@ templates.App = function() {
 };
 
 
-templates.StoryWriter = function() {
+exports.StoryWriter = function() {
 	return (
 		<div>
 			<form onSubmit={this.handleSubmit} className="large">
@@ -48,7 +61,7 @@ templates.StoryWriter = function() {
 };
 
 
-templates.CorrectionList = function() {
+exports.CorrectionList = function() {
 	
 	return (
 		<div>
@@ -60,23 +73,23 @@ templates.CorrectionList = function() {
 						<th>Word Search</th>
 					</tr>
 				</thead>
-				<spell.CorrectionEntry ref="correction0" correction={this.state.corrections[0]}/>
-				<spell.CorrectionEntry ref="correction1" correction={this.state.corrections[1]}/>
-				<spell.CorrectionEntry ref="correction2" correction={this.state.corrections[2]}/>
-				<spell.CorrectionEntry ref="correction3" correction={this.state.corrections[3]}/>
-				<spell.CorrectionEntry ref="correction4" correction={this.state.corrections[4]}/>
+				<CorrectionEntry ref="correction0" correction={this.state.corrections[0]}/>
+				<CorrectionEntry ref="correction1" correction={this.state.corrections[1]}/>
+				<CorrectionEntry ref="correction2" correction={this.state.corrections[2]}/>
+				<CorrectionEntry ref="correction3" correction={this.state.corrections[3]}/>
+				<CorrectionEntry ref="correction4" correction={this.state.corrections[4]}/>
 			</table>
 			<div className="clear"></div>
 			<div className="centering">
 				<button className="large"
 					onClick={this.showResults}>Print list</button>
 			</div>
-			<spell.ResultsList ref="resultsList" visible={this.state.resultsVisible} results={this.state.correctionResults}/>
+			<ResultsList ref="resultsList" visible={this.state.resultsVisible} results={this.state.correctionResults}/>
 		</div>
 	);
 };
 
-templates.ResultsList = function() {
+exports.ResultsList = function() {
 	
 	if (this.state.visible) {
 		
@@ -119,7 +132,7 @@ templates.ResultsList = function() {
 	}
 };
 
-templates.CorrectionEntry = function() {
+exports.CorrectionEntry = function() {
 	
 	var classes = {listState: (this.state.resultsVisible ? "" : "hidden")};
 	var word;
@@ -141,7 +154,7 @@ templates.CorrectionEntry = function() {
 					<input className="disabled" value={this.state.word} onChange={this.changeWord} onBlur={this.updateSuggestions} disabled="true"/>
 				</td>
 				<td>
-					<NS.Combobox ref="suggestionsCombo" data={this.state.spellingSuggestions} />
+					<Combobox ref="suggestionsCombo" data={this.state.spellingSuggestions} />
 				</td>
 				<td>
 					<div className="example-search-container">
@@ -169,3 +182,5 @@ templates.CorrectionEntry = function() {
 		</tbody>
 	);
 };
+
+

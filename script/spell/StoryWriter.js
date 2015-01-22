@@ -1,6 +1,12 @@
-namespace("spell");
+if (typeof(window) == 'undefined') {
+	var React = require('react');
+}
+else {
+	var React = window.React;
+}
+var templates = require('./templates.js');
 
-spell.StoryWriter = React.createClass({
+module.exports = React.createClass({
 	render: function() {
 		return templates.StoryWriter.bind(this)();
 	},
