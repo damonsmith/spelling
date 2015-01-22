@@ -8,7 +8,7 @@ else {
 var SpellingService = require("./service/SpellingService.js");
 var templates = require('./templates.js');
 
-module.exports = React.createClass({
+module.exports = React.createClass({displayName: "exports",
 	
 	convertSuggestionsToComboData: function(suggestions) {
 		var suggestionsComboOptions = [];
