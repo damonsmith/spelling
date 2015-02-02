@@ -231,7 +231,7 @@ input.example-search {
 	
 }
 
-.results-display {
+.results-display-lightbox {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -241,8 +241,15 @@ input.example-search {
 	background-color:rgba(0, 0, 0, 0.5);
 }
 
+.results-display {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+}
 
-.results-display table {
+.results-display-table {
 	margin: 8rem auto 0 auto;
 	background-color: #fff;
 }

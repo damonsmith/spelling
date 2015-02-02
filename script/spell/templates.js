@@ -112,19 +112,20 @@ exports.ResultsList = function() {
 		}
 		
 		return (
-			<div ref="parentElement" className="results-display" onClick={this.hideResults}>
-				<table>
-					<thead>
-						<tr>
-							<th>Word List</th>	
-						</tr>
-					</thead>
-					<tbody>
-						{rows}
-					</tbody>
-				</table>
-	
-			</div>
+			<span>
+				<div className="results-display-lightbox" onClick={this.hideResults}>
+					<table className="results-display-table" onClick={this.stopPropagation}>
+						<thead>
+							<tr>
+								<th>Word List</th>	
+							</tr>
+						</thead>
+						<tbody>
+							{rows}
+						</tbody>
+					</table>
+				</div>
+			</span>
 		);
 	}
 	else {

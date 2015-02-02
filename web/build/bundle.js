@@ -840,6 +840,10 @@ module.exports = React.createClass({displayName: "exports",
 		this.setState({
 			visible: false
 		});
+	},
+	
+	stopPropagation: function(event) {
+		event.stopPropagation();
 	}
 });
 },{"./templates.js":8,"react":undefined}],6:[function(require,module,exports){
@@ -1015,18 +1019,19 @@ exports.ResultsList = function() {
 		}
 		
 		return (
-			React.createElement("div", {ref: "parentElement", className: "results-display", onClick: this.hideResults}, 
-				React.createElement("table", null, 
-					React.createElement("thead", null, 
-						React.createElement("tr", null, 
-							React.createElement("th", null, "Word List")	
+			React.createElement("span", null, 
+				React.createElement("div", {className: "results-display-lightbox", onClick: this.hideResults}, 
+					React.createElement("table", {className: "results-display-table", onClick: this.stopPropagation}, 
+						React.createElement("thead", null, 
+							React.createElement("tr", null, 
+								React.createElement("th", null, "Word List")	
+							)
+						), 
+						React.createElement("tbody", null, 
+							rows
 						)
-					), 
-					React.createElement("tbody", null, 
-						rows
 					)
 				)
-	
 			)
 		);
 	}

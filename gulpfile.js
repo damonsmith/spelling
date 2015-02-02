@@ -16,7 +16,7 @@ var addons = require('react-addons');
 var replace = require('gulp-replace');
 
 gulp.task('default', ['build']);
-gulp.task('build', ['createCSSBundle']);
+gulp.task('build', ['javascript', 'jsx']);
 
 gulp.task('clean', function() {
 	del(['build']);
@@ -58,9 +58,4 @@ gulp.task('generate-react-static', function() {
 
 });
 
-gulp.task('createCSSBundle', function() {
-	gulp.src('src/css/**/*.css').pipe(minifyCSS({
-		keepBreaks : true
-	})).pipe(concatCss("bundle.css")).pipe(gulp.dest('build/css'));
-});
 

@@ -29,5 +29,9 @@ module.exports = React.createClass({
 		this.setState({
 			visible: false
 		});
+	},
+	
+	stopPropagation: function(event) {
+		event.stopPropagation();
 	}
 });
