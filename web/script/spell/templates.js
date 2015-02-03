@@ -77,7 +77,13 @@ exports.CorrectionList = function() {
 				React.createElement(CorrectionEntry, {ref: "correction1", correction: this.state.corrections[1]}), 
 				React.createElement(CorrectionEntry, {ref: "correction2", correction: this.state.corrections[2]}), 
 				React.createElement(CorrectionEntry, {ref: "correction3", correction: this.state.corrections[3]}), 
-				React.createElement(CorrectionEntry, {ref: "correction4", correction: this.state.corrections[4]})
+				React.createElement(CorrectionEntry, {ref: "correction4", correction: this.state.corrections[4]}), 
+				React.createElement(CorrectionEntry, {ref: "correction5", correction: this.state.corrections[5]}), 
+				React.createElement(CorrectionEntry, {ref: "correction6", correction: this.state.corrections[6]}), 
+				React.createElement(CorrectionEntry, {ref: "correction7", correction: this.state.corrections[7]}), 
+				React.createElement(CorrectionEntry, {ref: "correction8", correction: this.state.corrections[8]}), 
+				React.createElement(CorrectionEntry, {ref: "correction9", correction: this.state.corrections[9]})
+						
 			), 
 			React.createElement("div", {className: "clear"}), 
 			React.createElement("div", {className: "centering"}, 

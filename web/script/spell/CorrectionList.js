@@ -39,7 +39,7 @@ module.exports = React.createClass({displayName: "exports",
 		var correctionsIndex = 0;
 		var alreadyFound = {};
 		var word = "";
-		while (stateIndex < 5) {
+		while (stateIndex < 10) {
 			if (!corrections[correctionsIndex]) {
 				state[stateIndex] = this.blankRow;
 				stateIndex++;
@@ -67,6 +67,12 @@ module.exports = React.createClass({displayName: "exports",
 		correctionDataList.push(this.refs.correction2.getCorrectionData());
 		correctionDataList.push(this.refs.correction3.getCorrectionData());
 		correctionDataList.push(this.refs.correction4.getCorrectionData());
+		correctionDataList.push(this.refs.correction5.getCorrectionData());
+		correctionDataList.push(this.refs.correction6.getCorrectionData());
+		correctionDataList.push(this.refs.correction7.getCorrectionData());
+		correctionDataList.push(this.refs.correction8.getCorrectionData());
+		correctionDataList.push(this.refs.correction9.getCorrectionData());
+		
 
 		this.refs.resultsList.setState({
 			"visible": true,

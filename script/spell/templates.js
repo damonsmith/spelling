@@ -78,6 +78,12 @@ exports.CorrectionList = function() {
 				<CorrectionEntry ref="correction2" correction={this.state.corrections[2]}/>
 				<CorrectionEntry ref="correction3" correction={this.state.corrections[3]}/>
 				<CorrectionEntry ref="correction4" correction={this.state.corrections[4]}/>
+				<CorrectionEntry ref="correction5" correction={this.state.corrections[5]}/>
+				<CorrectionEntry ref="correction6" correction={this.state.corrections[6]}/>
+				<CorrectionEntry ref="correction7" correction={this.state.corrections[7]}/>
+				<CorrectionEntry ref="correction8" correction={this.state.corrections[8]}/>
+				<CorrectionEntry ref="correction9" correction={this.state.corrections[9]}/>
+						
 			</table>
 			<div className="clear"></div>
 			<div className="centering">

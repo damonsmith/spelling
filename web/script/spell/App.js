@@ -1,4 +1,3 @@
-
 var SpellingService = require("./service/SpellingService.js");
 if (typeof(window) == 'undefined') {
 	var React = require('react');
