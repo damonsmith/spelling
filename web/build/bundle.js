@@ -55,7 +55,7 @@ if (typeof(window) !== 'undefined') {
 	});
 }
 
-},{"./service/SpellingService.js":7,"./templates.js":8,"react":undefined}],2:[function(require,module,exports){
+},{"./service/SpellingService.js":8,"./templates.js":9,"react":undefined}],2:[function(require,module,exports){
 /** @jsx React.DOM */
 /* jshint newcap: false */
 if (typeof(window) == 'undefined') {
@@ -185,7 +185,8 @@ module.exports = React.createClass({displayName: "exports",
                         React.PropTypes.oneOf([false])
                     ]),
         // Function which will be invoked when value is changed
-        onChange: React.PropTypes.func
+        onChange: React.PropTypes.func,
+        onOptionSelect: React.PropTypes.func
     },
 
     getDefaultProps: function() {
@@ -320,6 +321,7 @@ module.exports = React.createClass({displayName: "exports",
     _handleOptionClick: function(evt, label, dataItem) {
         this.setState({_selectedOptionData: dataItem});
         this.setTextValue(label);
+        this.props.onOptionSelect(dataItem.label, dataItem.value);
         return false;
     },
 
@@ -578,7 +580,8 @@ module.exports = React.createClass({displayName: "exports",
 			"resultsVisible": false,
 			"resultsLoading": false,
 			"resultsLoaded": false,
-			"selectedExampleWords": {}
+			"selectedExampleWords": {},
+			"correctionWord": {"label": "foo", "value": "foo"}
 		};
 	},
 	
@@ -664,11 +667,12 @@ module.exports = React.createClass({displayName: "exports",
 		});
 	},
 	
-	correctionChanged: function(newText, oldText) {
-		this.removeExampleWord(oldText);
-		if (newText) {
-			this.selectExampleWord(newText);
+	correctionChanged: function(label, value) {
+		this.removeExampleWord(this.state.correctionWord);
+		if (value) {
+			this.selectExampleWord(value);
 		}
+		this.setState({"correctionWord": value});
 	},
 	
 	selectExampleWord: function(word) {
@@ -731,7 +735,7 @@ module.exports = React.createClass({displayName: "exports",
 		return templates.CorrectionEntry.bind(this)();
 	}
 });
-},{"./service/SpellingService.js":7,"./templates.js":8,"react":undefined}],4:[function(require,module,exports){
+},{"./service/SpellingService.js":8,"./templates.js":9,"react":undefined}],4:[function(require,module,exports){
 if (typeof(window) == 'undefined') {
 	var React = require('react');
 }
@@ -821,7 +825,7 @@ module.exports = React.createClass({displayName: "exports",
 	}
 	
 });
-},{"./templates.js":8,"react":undefined}],5:[function(require,module,exports){
+},{"./templates.js":9,"react":undefined}],5:[function(require,module,exports){
 if (typeof(window) == 'undefined') {
 	var React = require('react');
 }
@@ -859,7 +863,128 @@ module.exports = React.createClass({displayName: "exports",
 		event.stopPropagation();
 	}
 });
-},{"./templates.js":8,"react":undefined}],6:[function(require,module,exports){
+},{"./templates.js":9,"react":undefined}],6:[function(require,module,exports){
+if (typeof(window) == 'undefined') {
+	var React = require('react');
+}
+else {
+	var React = window.React;
+}
+
+var templates = require('./templates.js');
+
+module.exports = React.createClass({displayName: "exports",
+	
+	getInitialState: function() {
+		return {
+			"searchText": "",
+			"resultsVisible": false,
+			"resultsLoading": false,
+			"resultsLoaded": false,
+			"searchResults": [],
+			"resultsList": []
+		};
+	},
+	
+	componentWillMount: function() {
+		if (typeof window !== 'undefined') {
+			window.addEventListener("click", function(event) {
+				if (this.state.resultsVisible) {
+					if (event.target !== this.refs.dropdownList.getDOMNode() && 
+					    event.target.parentNode !== this.refs.dropdownList.getDOMNode() && 
+					    event.target.parentNode.parentNode !== this.refs.dropdownList.getDOMNode() && 
+					    event.target !== this.refs.toggleResultsButton.getDOMNode()) {
+						this.setState({
+							"resultsVisible": false	
+						});
+					}
+				}
+			}.bind(this));
+		}
+	},
+	
+	componentWillReceiveProps: function(nextProps) {
+		this.setState({
+			"resultsList": nextProps.resultsList
+		});
+	},
+	
+	changeWord: function(event) {
+		var newWord = event.target.value;
+		
+		this.setState({
+			"word":  event.target.value
+		});
+	},
+	
+	updateSuggestions: function() {
+		SpellingService.check(
+			this.state.word,
+			this.handleNewSuggestions.bind(this),
+			this.handleError.bind(this));
+	},
+	
+	handleNewSuggestions: function(data) {
+		if (data[0]) {
+			var newSuggestions = this.convertSuggestionsToComboData(data[0].suggestions);
+			this.setState({
+				"spellingSuggestions": newSuggestions
+			});
+		}
+	},
+	
+	keyUpHander: function(event) {
+		if (event.keyCode === 13) {
+			this.toggleResultsVisible();
+		}
+	},
+	
+	changeSearchText: function(event) {
+		var text = event.target.value;
+		this.setState({
+			"searchText": event.target.value,
+			"resultsLoaded": false,
+			"resultsLoading": false,
+			"resultsVisible": false
+		});
+	},
+	
+	toggleResultsVisible: function() {
+		
+		if (!this.state.resultsVisible && !this.state.resultsLoaded && !this.state.resultsLoading) {
+			if (this.state.searchText) {
+				SpellingService.getExamples(
+					this.state.searchText,
+					this.handleResultsReceived.bind(this), 
+					this.handleError.bind(this));
+			}
+		}
+		else if (this.state.resultsLoaded) {
+			this.setState({
+				"resultsVisible": !this.state.resultsVisible
+			});
+		}
+	},
+	
+	handleResultsReceived: function(results) {
+		
+		this.setState({
+			"resultsVisible": true,
+			"resultsLoaded": true,
+			"resultsLoading": false,
+			"resultsList": results
+		});
+	},
+	
+	handleError: function() {
+		
+	},
+	
+	render: function() {
+		return templates.CorrectionEntry.bind(this)();
+	}
+});
+},{"./templates.js":9,"react":undefined}],7:[function(require,module,exports){
 if (typeof(window) == 'undefined') {
 	var React = require('react');
 }
@@ -886,7 +1011,7 @@ module.exports = React.createClass({displayName: "exports",
 	}
 });
 
-},{"./templates.js":8,"react":undefined}],7:[function(require,module,exports){
+},{"./templates.js":9,"react":undefined}],8:[function(require,module,exports){
 
 var SpellingService = {
 };
@@ -917,7 +1042,7 @@ SpellingService.send = function(data, url, successHandler, errorHandler) {
 
 module.exports = SpellingService;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 if (typeof(window) == 'undefined') {
 	var React = require('react');
 }
@@ -929,6 +1054,7 @@ var StoryWriter = require("./StoryWriter.js");
 var CorrectionList = require("./CorrectionList.js");
 var CorrectionEntry = require("./CorrectionEntry.js");
 var Combobox = require("./Combobox.js");
+var SearchDropDown = require("./SearchDropDown.js");
 var ResultsList = require("./ResultsList.js");
 
 
@@ -1081,7 +1207,7 @@ exports.CorrectionEntry = function() {
 					React.createElement("input", {className: "disabled", value: this.state.word, onChange: this.changeWord, onBlur: this.updateSuggestions, disabled: "true"})
 				), 
 				React.createElement("td", null, 
-					React.createElement(Combobox, {ref: "suggestionsCombo", data: this.state.spellingSuggestions, onChange: this.correctionChanged})
+					React.createElement(Combobox, {ref: "suggestionsCombo", data: this.state.spellingSuggestions, value: this.state.correctionWord, onOptionSelect: this.correctionChanged})
 				), 
 				React.createElement("td", null, 
 					React.createElement("div", {className: "example-search-container"}, 
@@ -1090,13 +1216,7 @@ exports.CorrectionEntry = function() {
 							React.createElement("option", {value: "startsWith"}, "Starts with.."), 
 							React.createElement("option", {value: "endsWith"}, "Ends with..")
 						), 
-						React.createElement("input", {className: "example-search", placeholder: "eg: ing", value: this.state.searchText, onChange: this.changeSearchText, onKeyUp: this.keyUpHander}), 
-						React.createElement("button", {ref: "toggleResultsButton", className: "small results-search", onClick: this.toggleResultsVisible}), 
-						React.createElement("div", {className: classes.listState + ' ' + 'positioner'}, 
-							React.createElement("div", {ref: "dropdownList", className: "dropdown-list"}, 
-								resultsList
-							)
-						)
+						React.createElement(SearchDropDown, null)
 					)
 				)
 			), 
@@ -1110,8 +1230,28 @@ exports.CorrectionEntry = function() {
 	);
 };
 
+exports.SearchDropDown = function() {
+	var classes = {listState: (this.state.resultsVisible ? "" : "hidden")};
+	var word;
+	var resultElements = [];
+	
+	this.state.optionList.forEach(function(option) {
+		resultElements.push(React.createElement("div", {key: "rl" + word, onClick: function(){this.selectWord(word)}.bind(this)}, word, React.createElement("div", {className: "add-word-button"})));
+	}.bind(this));
+	
+	return (
+		React.createElement("span", null, 
+			React.createElement("input", {className: "example-search", placeholder: this.props.placeholder, value: this.state.searchText, onChange: this.changeSearchText, onKeyUp: this.keyUpHander}), 
+			React.createElement("button", {ref: "toggleResultsButton", className: "small results-search", onClick: this.toggleResultsVisible}), 
+			React.createElement("div", {className: classes.listState + ' ' + 'positioner'}, 
+				React.createElement("div", {ref: "dropdownList", className: "dropdown-list"}, 
+					resultElements
+				)
+			)
+		)
+	);
+};
 
-
-},{"./Combobox.js":2,"./CorrectionEntry.js":3,"./CorrectionList.js":4,"./ResultsList.js":5,"./StoryWriter.js":6,"react":undefined}]},{},[1]);
+},{"./Combobox.js":2,"./CorrectionEntry.js":3,"./CorrectionList.js":4,"./ResultsList.js":5,"./SearchDropDown.js":6,"./StoryWriter.js":7,"react":undefined}]},{},[1]);
 
 //# sourceMappingURL=../script/bundle.js.map

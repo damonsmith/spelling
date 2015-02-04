@@ -9,6 +9,7 @@ var StoryWriter = require("./StoryWriter.js");
 var CorrectionList = require("./CorrectionList.js");
 var CorrectionEntry = require("./CorrectionEntry.js");
 var Combobox = require("./Combobox.js");
+var SearchDropDown = require("./SearchDropDown.js");
 var ResultsList = require("./ResultsList.js");
 
 
@@ -161,7 +162,7 @@ exports.CorrectionEntry = function() {
 					React.createElement("input", {className: "disabled", value: this.state.word, onChange: this.changeWord, onBlur: this.updateSuggestions, disabled: "true"})
 				), 
 				React.createElement("td", null, 
-					React.createElement(Combobox, {ref: "suggestionsCombo", data: this.state.spellingSuggestions, onChange: this.correctionChanged})
+					React.createElement(Combobox, {ref: "suggestionsCombo", data: this.state.spellingSuggestions, value: this.state.correctionWord, onOptionSelect: this.correctionChanged})
 				), 
 				React.createElement("td", null, 
 					React.createElement("div", {className: "example-search-container"}, 
@@ -170,13 +171,7 @@ exports.CorrectionEntry = function() {
 							React.createElement("option", {value: "startsWith"}, "Starts with.."), 
 							React.createElement("option", {value: "endsWith"}, "Ends with..")
 						), 
-						React.createElement("input", {className: "example-search", placeholder: "eg: ing", value: this.state.searchText, onChange: this.changeSearchText, onKeyUp: this.keyUpHander}), 
-						React.createElement("button", {ref: "toggleResultsButton", className: "small results-search", onClick: this.toggleResultsVisible}), 
-						React.createElement("div", {className: classes.listState + ' ' + 'positioner'}, 
-							React.createElement("div", {ref: "dropdownList", className: "dropdown-list"}, 
-								resultsList
-							)
-						)
+						React.createElement(SearchDropDown, null)
 					)
 				)
 			), 
@@ -190,4 +185,24 @@ exports.CorrectionEntry = function() {
 	);
 };
 
-
+exports.SearchDropDown = function() {
+	var classes = {listState: (this.state.resultsVisible ? "" : "hidden")};
+	var word;
+	var resultElements = [];
+	
+	this.state.optionList.forEach(function(option) {
+		resultElements.push(React.createElement("div", {key: "rl" + word, onClick: function(){this.selectWord(word)}.bind(this)}, word, React.createElement("div", {className: "add-word-button"})));
+	}.bind(this));
+	
+	return (
+		React.createElement("span", null, 
+			React.createElement("input", {className: "example-search", placeholder: this.props.placeholder, value: this.state.searchText, onChange: this.changeSearchText, onKeyUp: this.keyUpHander}), 
+			React.createElement("button", {ref: "toggleResultsButton", className: "small results-search", onClick: this.toggleResultsVisible}), 
+			React.createElement("div", {className: classes.listState + ' ' + 'positioner'}, 
+				React.createElement("div", {ref: "dropdownList", className: "dropdown-list"}, 
+					resultElements
+				)
+			)
+		)
+	);
+};

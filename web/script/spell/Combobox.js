@@ -127,7 +127,8 @@ module.exports = React.createClass({displayName: "exports",
                         React.PropTypes.oneOf([false])
                     ]),
         // Function which will be invoked when value is changed
-        onChange: React.PropTypes.func
+        onChange: React.PropTypes.func,
+        onOptionSelect: React.PropTypes.func
     },
 
     getDefaultProps: function() {
@@ -262,6 +263,7 @@ module.exports = React.createClass({displayName: "exports",
     _handleOptionClick: function(evt, label, dataItem) {
         this.setState({_selectedOptionData: dataItem});
         this.setTextValue(label);
+        this.props.onOptionSelect(dataItem.label, dataItem.value);
         return false;
     },
 

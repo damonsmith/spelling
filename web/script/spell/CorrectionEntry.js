@@ -35,7 +35,8 @@ module.exports = React.createClass({displayName: "exports",
 			"resultsVisible": false,
 			"resultsLoading": false,
 			"resultsLoaded": false,
-			"selectedExampleWords": {}
+			"selectedExampleWords": {},
+			"correctionWord": {"label": "foo", "value": "foo"}
 		};
 	},
 	
@@ -121,11 +122,12 @@ module.exports = React.createClass({displayName: "exports",
 		});
 	},
 	
-	correctionChanged: function(newText, oldText) {
-		this.removeExampleWord(oldText);
-		if (newText) {
-			this.selectExampleWord(newText);
+	correctionChanged: function(label, value) {
+		this.removeExampleWord(this.state.correctionWord);
+		if (value) {
+			this.selectExampleWord(value);
 		}
+		this.setState({"correctionWord": value});
 	},
 	
 	selectExampleWord: function(word) {

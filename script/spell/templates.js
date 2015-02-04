@@ -9,6 +9,7 @@ var StoryWriter = require("./StoryWriter.js");
 var CorrectionList = require("./CorrectionList.js");
 var CorrectionEntry = require("./CorrectionEntry.js");
 var Combobox = require("./Combobox.js");
+var SearchDropDown = require("./SearchDropDown.js");
 var ResultsList = require("./ResultsList.js");
 
 
@@ -161,7 +162,7 @@ exports.CorrectionEntry = function() {
 					<input className="disabled" value={this.state.word} onChange={this.changeWord} onBlur={this.updateSuggestions} disabled="true"/>
 				</td>
 				<td>
-					<Combobox ref="suggestionsCombo" data={this.state.spellingSuggestions} onChange={this.correctionChanged} />
+					<Combobox ref="suggestionsCombo" data={this.state.spellingSuggestions} value={this.state.correctionWord} onOptionSelect={this.correctionChanged} />
 				</td>
 				<td>
 					<div className="example-search-container">
@@ -170,13 +171,7 @@ exports.CorrectionEntry = function() {
 							<option value="startsWith">Starts with..</option>
 							<option value="endsWith">Ends with..</option>
 						</select>
-						<input className="example-search" placeholder="eg: ing" value={this.state.searchText} onChange={this.changeSearchText} onKeyUp={this.keyUpHander}/>
-						<button ref="toggleResultsButton" className="small results-search" onClick={this.toggleResultsVisible}></button>
-						<div className={classes.listState + ' ' + 'positioner'}>
-							<div ref="dropdownList" className="dropdown-list">
-								{resultsList}
-							</div>
-						</div>
+						<SearchDropDown />
 					</div>
 				</td>
 			</tr>
@@ -190,4 +185,24 @@ exports.CorrectionEntry = function() {
 	);
 };
 
-
+exports.SearchDropDown = function() {
+	var classes = {listState: (this.state.resultsVisible ? "" : "hidden")};
+	var word;
+	var resultElements = [];
+	
+	this.state.optionList.forEach(function(option) {
+		resultElements.push(<div key={"rl" + word} onClick={function(){this.selectWord(word)}.bind(this)}>{word}<div className="add-word-button"></div></div>);
+	}.bind(this));
+	
+	return (
+		<span>
+			<input className="example-search" placeholder={this.props.placeholder} value={this.state.searchText} onChange={this.changeSearchText} onKeyUp={this.keyUpHander}/>
+			<button ref="toggleResultsButton" className="small results-search" onClick={this.toggleResultsVisible}></button>
+			<div className={classes.listState + ' ' + 'positioner'}>
+				<div ref="dropdownList" className="dropdown-list">
+					{resultElements}
+				</div>
+			</div>
+		</span>
+	);
+};
