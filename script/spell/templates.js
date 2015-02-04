@@ -21,7 +21,7 @@ exports.App = function() {
 				<article>
 					<div>
 						<header>
-							Story Text
+							Student Text
 						</header>
 						<StoryWriter submitStory={this.submitStory}/>
 						<div className="clear"></div>
@@ -54,7 +54,7 @@ exports.StoryWriter = function() {
 					autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false"
 					placeholder=""
 				></textarea>
-				<button>Analyse text</button>
+				<button>Analyse Text</button>
 			</form>
 		</div>
 	);
@@ -161,7 +161,7 @@ exports.CorrectionEntry = function() {
 					<input className="disabled" value={this.state.word} onChange={this.changeWord} onBlur={this.updateSuggestions} disabled="true"/>
 				</td>
 				<td>
-					<Combobox ref="suggestionsCombo" data={this.state.spellingSuggestions} />
+					<Combobox ref="suggestionsCombo" data={this.state.spellingSuggestions} onChange={this.correctionChanged} />
 				</td>
 				<td>
 					<div className="example-search-container">

@@ -664,6 +664,13 @@ module.exports = React.createClass({displayName: "exports",
 		});
 	},
 	
+	correctionChanged: function(newText, oldText) {
+		this.removeExampleWord(oldText);
+		if (newText) {
+			this.selectExampleWord(newText);
+		}
+	},
+	
 	selectExampleWord: function(word) {
 		
 		this.state.selectedExampleWords[word] = true;
@@ -934,7 +941,7 @@ exports.App = function() {
 				React.createElement("article", null, 
 					React.createElement("div", null, 
 						React.createElement("header", null, 
-							"Story Text"
+							"Student Text"
 						), 
 						React.createElement(StoryWriter, {submitStory: this.submitStory}), 
 						React.createElement("div", {className: "clear"})
@@ -967,7 +974,7 @@ exports.StoryWriter = function() {
 					autoComplete: "off", autoCorrect: "off", autoCapitalize: "off", spellCheck: "false", 
 					placeholder: ""
 				}), 
-				React.createElement("button", null, "Analyse text")
+				React.createElement("button", null, "Analyse Text")
 			)
 		)
 	);
@@ -1074,7 +1081,7 @@ exports.CorrectionEntry = function() {
 					React.createElement("input", {className: "disabled", value: this.state.word, onChange: this.changeWord, onBlur: this.updateSuggestions, disabled: "true"})
 				), 
 				React.createElement("td", null, 
-					React.createElement(Combobox, {ref: "suggestionsCombo", data: this.state.spellingSuggestions})
+					React.createElement(Combobox, {ref: "suggestionsCombo", data: this.state.spellingSuggestions, onChange: this.correctionChanged})
 				), 
 				React.createElement("td", null, 
 					React.createElement("div", {className: "example-search-container"}, 

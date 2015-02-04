@@ -121,6 +121,13 @@ module.exports = React.createClass({displayName: "exports",
 		});
 	},
 	
+	correctionChanged: function(newText, oldText) {
+		this.removeExampleWord(oldText);
+		if (newText) {
+			this.selectExampleWord(newText);
+		}
+	},
+	
 	selectExampleWord: function(word) {
 		
 		this.state.selectedExampleWords[word] = true;
