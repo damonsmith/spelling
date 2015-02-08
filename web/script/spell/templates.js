@@ -142,18 +142,12 @@ exports.ResultsList = function() {
 
 exports.CorrectionEntry = function() {
 	
-	var classes = {listState: (this.state.resultsVisible ? "" : "hidden")};
-	var word;
-	var resultsList = [];
-	
-	this.state.resultsList.forEach(function(word) {
-		resultsList.push(React.createElement("div", {key: "rl" + word, onClick: function(){this.selectExampleWord(word)}.bind(this)}, word, React.createElement("div", {className: "add-word-button"})));
-	}.bind(this));
-	
 	selectedExampleWords = [];
-	Object.keys(this.state.selectedExampleWords).forEach(function(word) {
-		selectedExampleWords.push(React.createElement("div", {key: "ew" + word, onClick: function(){this.removeExampleWord(word)}.bind(this)}, word));
-	}.bind(this));
+	if (this.state.selectedExampleWords) {
+		Object.keys(this.state.selectedExampleWords).forEach(function(word) {
+			selectedExampleWords.push(React.createElement("div", {key: "ew" + word, onClick: function(){this.removeExampleWord(word)}.bind(this)}, word));
+		}.bind(this));
+	}
 	
 	return (
 		React.createElement("tbody", null, 
@@ -171,7 +165,7 @@ exports.CorrectionEntry = function() {
 							React.createElement("option", {value: "startsWith"}, "Starts with.."), 
 							React.createElement("option", {value: "endsWith"}, "Ends with..")
 						), 
-						React.createElement(SearchDropDown, null)
+						React.createElement(SearchDropDown, {searchFunction: this.getExampleWords, optionSelectHandler: this.exampleOptionSelected})
 					)
 				)
 			), 
@@ -190,8 +184,8 @@ exports.SearchDropDown = function() {
 	var word;
 	var resultElements = [];
 	
-	this.state.optionList.forEach(function(option) {
-		resultElements.push(React.createElement("div", {key: "rl" + word, onClick: function(){this.selectWord(word)}.bind(this)}, word, React.createElement("div", {className: "add-word-button"})));
+	this.state.searchResultsList.forEach(function(option) {
+		resultElements.push(React.createElement("div", {key: "rl" + option, onClick: function(){this.selectOption(option)}.bind(this)}, option, React.createElement("div", {className: "add-word-button"})));
 	}.bind(this));
 	
 	return (

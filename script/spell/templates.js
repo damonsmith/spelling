@@ -142,18 +142,12 @@ exports.ResultsList = function() {
 
 exports.CorrectionEntry = function() {
 	
-	var classes = {listState: (this.state.resultsVisible ? "" : "hidden")};
-	var word;
-	var resultsList = [];
-	
-	this.state.resultsList.forEach(function(word) {
-		resultsList.push(<div key={"rl" + word} onClick={function(){this.selectExampleWord(word)}.bind(this)}>{word}<div className="add-word-button"></div></div>);
-	}.bind(this));
-	
 	selectedExampleWords = [];
-	Object.keys(this.state.selectedExampleWords).forEach(function(word) {
-		selectedExampleWords.push(<div key={"ew" + word} onClick={function(){this.removeExampleWord(word)}.bind(this)}>{word}</div>);
-	}.bind(this));
+	if (this.state.selectedExampleWords) {
+		Object.keys(this.state.selectedExampleWords).forEach(function(word) {
+			selectedExampleWords.push(<div key={"ew" + word} onClick={function(){this.removeExampleWord(word)}.bind(this)}>{word}</div>);
+		}.bind(this));
+	}
 	
 	return (
 		<tbody>
@@ -171,7 +165,7 @@ exports.CorrectionEntry = function() {
 							<option value="startsWith">Starts with..</option>
 							<option value="endsWith">Ends with..</option>
 						</select>
-						<SearchDropDown />
+						<SearchDropDown searchFunction={this.getExampleWords} optionSelectHandler={this.exampleOptionSelected} />
 					</div>
 				</td>
 			</tr>
@@ -190,8 +184,8 @@ exports.SearchDropDown = function() {
 	var word;
 	var resultElements = [];
 	
-	this.state.optionList.forEach(function(option) {
-		resultElements.push(<div key={"rl" + word} onClick={function(){this.selectWord(word)}.bind(this)}>{word}<div className="add-word-button"></div></div>);
+	this.state.searchResultsList.forEach(function(option) {
+		resultElements.push(<div key={"rl" + option} onClick={function(){this.selectOption(option)}.bind(this)}>{option}<div className="add-word-button"></div></div>);
 	}.bind(this));
 	
 	return (

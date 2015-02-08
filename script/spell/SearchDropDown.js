@@ -5,6 +5,7 @@ else {
 	var React = window.React;
 }
 
+var SpellingService = require("./service/SpellingService.js");
 var templates = require('./templates.js');
 
 module.exports = React.createClass({
@@ -16,7 +17,7 @@ module.exports = React.createClass({
 			"resultsLoading": false,
 			"resultsLoaded": false,
 			"searchResults": [],
-			"resultsList": []
+			"searchResultsList": []
 		};
 	},
 	
@@ -38,9 +39,6 @@ module.exports = React.createClass({
 	},
 	
 	componentWillReceiveProps: function(nextProps) {
-		this.setState({
-			"resultsList": nextProps.resultsList
-		});
 	},
 	
 	changeWord: function(event) {
@@ -87,10 +85,10 @@ module.exports = React.createClass({
 		
 		if (!this.state.resultsVisible && !this.state.resultsLoaded && !this.state.resultsLoading) {
 			if (this.state.searchText) {
-				SpellingService.getExamples(
-					this.state.searchText,
-					this.handleResultsReceived.bind(this), 
-					this.handleError.bind(this));
+				this.props.searchFunction(
+						this.state.searchText,
+						this.handleResultsReceived.bind(this), 
+						this.handleError.bind(this));
 			}
 		}
 		else if (this.state.resultsLoaded) {
@@ -106,15 +104,19 @@ module.exports = React.createClass({
 			"resultsVisible": true,
 			"resultsLoaded": true,
 			"resultsLoading": false,
-			"resultsList": results
+			"searchResultsList": results
 		});
 	},
 	
-	handleError: function() {
-		
+	handleError: function(e) {
+		console.error("error: ", e);
+	},
+	
+	selectOption: function(option) {
+		this.props.optionSelectHandler(option);
 	},
 	
 	render: function() {
-		return templates.CorrectionEntry.bind(this)();
+		return templates.SearchDropDown.bind(this)();
 	}
 });

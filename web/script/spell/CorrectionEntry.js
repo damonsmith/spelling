@@ -29,32 +29,10 @@ module.exports = React.createClass({displayName: "exports",
 			"word": this.props.correction.word,
 			"spellingSuggestions": this.convertSuggestionsToComboData(this.props.correction.suggestions),
 			"searchType": "endsWith",
-			"searchText": "",
-			"resultsList": [],
 			"confirmedWordLoading": false,
-			"resultsVisible": false,
-			"resultsLoading": false,
-			"resultsLoaded": false,
 			"selectedExampleWords": {},
 			"correctionWord": {"label": "foo", "value": "foo"}
 		};
-	},
-	
-	componentWillMount: function() {
-		if (typeof window !== 'undefined') {
-			window.addEventListener("click", function(event) {
-				if (this.state.resultsVisible) {
-					if (event.target !== this.refs.dropdownList.getDOMNode() && 
-					    event.target.parentNode !== this.refs.dropdownList.getDOMNode() && 
-					    event.target.parentNode.parentNode !== this.refs.dropdownList.getDOMNode() && 
-					    event.target !== this.refs.toggleResultsButton.getDOMNode()) {
-						this.setState({
-							"resultsVisible": false	
-						});
-					}
-				}
-			}.bind(this));
-		}
 	},
 	
 	componentWillReceiveProps: function(nextProps) {
@@ -63,12 +41,8 @@ module.exports = React.createClass({displayName: "exports",
 			this.setState({
 				"word": nextProps.correction.word,
 				"spellingSuggestions": newSuggestions,
-				"resultsVisible": false,
-				"searchText": "",
 				"resultsList": [],
 				"confirmedWordLoading": false,
-				"resultsLoading": false,
-				"resultsLoaded": false,
 				"selectedExampleWords": {}
 			});
 			this.refs.suggestionsCombo.setState({"_textValue": ""});
@@ -81,6 +55,14 @@ module.exports = React.createClass({displayName: "exports",
 		this.setState({
 			"word":  event.target.value
 		});
+	},
+	
+	selectExampleWord: function(word) {
+		
+		this.state.selectedExampleWords[word] = true;
+		this.setState({
+			selectedExampleWords: this.state.selectedExampleWords
+		})
 	},
 	
 	updateSuggestions: function() {
@@ -106,22 +88,6 @@ module.exports = React.createClass({displayName: "exports",
 		});
 	},
 	
-	keyUpHander: function(event) {
-		if (event.keyCode === 13) {
-			this.toggleResultsVisible();
-		}
-	},
-	
-	changeSearchText: function(event) {
-		var text = event.target.value;
-		this.setState({
-			"searchText": event.target.value,
-			"resultsLoaded": false,
-			"resultsLoading": false,
-			"resultsVisible": false
-		});
-	},
-	
 	correctionChanged: function(label, value) {
 		this.removeExampleWord(this.state.correctionWord);
 		if (value) {
@@ -130,7 +96,7 @@ module.exports = React.createClass({displayName: "exports",
 		this.setState({"correctionWord": value});
 	},
 	
-	selectExampleWord: function(word) {
+	exampleOptionSelected: function(word) {
 		
 		this.state.selectedExampleWords[word] = true;
 		this.setState({
@@ -146,22 +112,8 @@ module.exports = React.createClass({displayName: "exports",
 		})
 	},
 	
-	toggleResultsVisible: function() {
-		
-		if (!this.state.resultsVisible && !this.state.resultsLoaded && !this.state.resultsLoading) {
-			if (this.state.searchText) {
-				SpellingService.getExamples(
-					this.state.searchType, 
-					this.state.searchText,
-					this.handleResultsReceived.bind(this), 
-					this.handleError.bind(this));
-			}
-		}
-		else if (this.state.resultsLoaded) {
-			this.setState({
-				"resultsVisible": !this.state.resultsVisible
-			});
-		}
+	getExampleWords: function(text, successHandler, errorHandler) {
+		SpellingService.getExamples(this.state.searchType, text, successHandler, errorHandler);
 	},
 	
 	getCorrectionData: function() {
@@ -170,20 +122,6 @@ module.exports = React.createClass({displayName: "exports",
 			correctedWord: this.refs.suggestionsCombo.state._textValue,
 			examples: this.state.selectedExampleWords
 		}
-	},
-	
-	handleResultsReceived: function(results) {
-		
-		this.setState({
-			"resultsVisible": true,
-			"resultsLoaded": true,
-			"resultsLoading": false,
-			"resultsList": results
-		});
-	},
-	
-	handleError: function() {
-		
 	},
 	
 	render: function() {
