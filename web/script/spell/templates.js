@@ -153,10 +153,10 @@ exports.CorrectionEntry = function() {
 		React.createElement("tbody", null, 
 			React.createElement("tr", {className: "input-fields-row"}, 
 				React.createElement("td", null, 
-					React.createElement("input", {className: "disabled", value: this.state.word, onChange: this.changeWord, onBlur: this.updateSuggestions, disabled: "true"})
+					React.createElement("input", {className: "disabled", value: this.state.word, onChange: this.changeWord, disabled: "true"})
 				), 
-				React.createElement("td", null, 
-					React.createElement(Combobox, {ref: "suggestionsCombo", data: this.state.spellingSuggestions, value: this.state.correctionWord, onOptionSelect: this.correctionChanged})
+				React.createElement("td", {className: "correction-word"}, 
+					React.createElement(SearchDropDown, {ref: "correctionSearch", searchText: this.state.correctionSearch, searchFunction: this.getSpellingSuggestions, optionSelectHandler: this.selectCorrection})
 				), 
 				React.createElement("td", null, 
 					React.createElement("div", {className: "example-search-container"}, 
@@ -185,11 +185,11 @@ exports.SearchDropDown = function() {
 	var resultElements = [];
 	
 	this.state.searchResultsList.forEach(function(option) {
-		resultElements.push(React.createElement("div", {key: "rl" + option, onClick: function(){this.selectOption(option)}.bind(this)}, option, React.createElement("div", {className: "add-word-button"})));
+		resultElements.push(React.createElement("div", {key: "rl" + option, onClick: function(){this.selectOption(option)}.bind(this)}, option));
 	}.bind(this));
 	
 	return (
-		React.createElement("span", null, 
+		React.createElement("span", {className: "search-drop-down"}, 
 			React.createElement("input", {className: "example-search", placeholder: this.props.placeholder, value: this.state.searchText, onChange: this.changeSearchText, onKeyUp: this.keyUpHander}), 
 			React.createElement("button", {ref: "toggleResultsButton", className: "small results-search", onClick: this.toggleResultsVisible}), 
 			React.createElement("div", {className: classes.listState + ' ' + 'positioner'}, 

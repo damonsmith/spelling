@@ -7,6 +7,12 @@ SpellingService.check = function(text, successHandler, errorHandler) {
 	SpellingService.send({"text": text}, 'wordsearch/spellcheck.php', successHandler, errorHandler);
 };
 
+SpellingService.getWordSuggestions = function(searchTerm, successHandler, errorHandler) {
+	
+	SpellingService.send({"searchTerm": searchTerm}, 'wordsearch/getwordsuggestions.php', successHandler, errorHandler);
+	
+};
+
 SpellingService.getExamples = function(searchType, searchTerm, successHandler, errorHandler) {
 	
 	SpellingService.send({"searchType": searchType, "searchTerm": searchTerm}, 'wordsearch/words.php', successHandler, errorHandler);

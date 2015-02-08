@@ -153,10 +153,10 @@ exports.CorrectionEntry = function() {
 		<tbody>
 			<tr className="input-fields-row">
 				<td>
-					<input className="disabled" value={this.state.word} onChange={this.changeWord} onBlur={this.updateSuggestions} disabled="true"/>
+					<input className="disabled" value={this.state.word} onChange={this.changeWord} disabled="true"/>
 				</td>
-				<td>
-					<Combobox ref="suggestionsCombo" data={this.state.spellingSuggestions} value={this.state.correctionWord} onOptionSelect={this.correctionChanged} />
+				<td className="correction-word">
+					<SearchDropDown ref="correctionSearch" searchText={this.state.correctionSearch} searchFunction={this.getSpellingSuggestions} optionSelectHandler={this.selectCorrection} />
 				</td>
 				<td>
 					<div className="example-search-container">
@@ -185,11 +185,11 @@ exports.SearchDropDown = function() {
 	var resultElements = [];
 	
 	this.state.searchResultsList.forEach(function(option) {
-		resultElements.push(<div key={"rl" + option} onClick={function(){this.selectOption(option)}.bind(this)}>{option}<div className="add-word-button"></div></div>);
+		resultElements.push(<div key={"rl" + option} onClick={function(){this.selectOption(option)}.bind(this)}>{option}</div>);
 	}.bind(this));
 	
 	return (
-		<span>
+		<span className="search-drop-down">
 			<input className="example-search" placeholder={this.props.placeholder} value={this.state.searchText} onChange={this.changeSearchText} onKeyUp={this.keyUpHander}/>
 			<button ref="toggleResultsButton" className="small results-search" onClick={this.toggleResultsVisible}></button>
 			<div className={classes.listState + ' ' + 'positioner'}>

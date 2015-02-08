@@ -16,7 +16,7 @@ module.exports = React.createClass({displayName: "exports",
 		if (suggestions) {
 			suggestions.forEach(function(item) {
 				if (!wordMap[item.toLowerCase()]) {
-					suggestionsComboOptions.push({"label": item, "value": item});
+					suggestionsComboOptions.push(item);
 					wordMap[item.toLowerCase()] = true;
 				}
 			});
@@ -27,11 +27,11 @@ module.exports = React.createClass({displayName: "exports",
 	getInitialState: function() {
 		return {
 			"word": this.props.correction.word,
-			"spellingSuggestions": this.convertSuggestionsToComboData(this.props.correction.suggestions),
+			"correctionSearch": this.props.correction.word,
+			"confirmedWord": "",
+			"spellingSuggestions": [],
 			"searchType": "endsWith",
-			"confirmedWordLoading": false,
-			"selectedExampleWords": {},
-			"correctionWord": {"label": "foo", "value": "foo"}
+			"selectedExampleWords": {}
 		};
 	},
 	
@@ -40,14 +40,19 @@ module.exports = React.createClass({displayName: "exports",
 			var newSuggestions = this.convertSuggestionsToComboData(nextProps.correction.suggestions);
 			this.setState({
 				"word": nextProps.correction.word,
+				"correctionSearch": nextProps.correction.word,
+				"correctionWord": "",
 				"spellingSuggestions": newSuggestions,
 				"resultsList": [],
-				"confirmedWordLoading": false,
 				"selectedExampleWords": {}
 			});
-			this.refs.suggestionsCombo.setState({"_textValue": ""});
 		}
 	},
+
+	
+	/* **************************************************** */
+	/* ** Functions for dealing with the CORRECTION word ** */
+	/* *************************************************** */
 	
 	changeWord: function(event) {
 		var newWord = event.target.value;
@@ -57,43 +62,46 @@ module.exports = React.createClass({displayName: "exports",
 		});
 	},
 	
+	getSpellingSuggestions: function(text, successHandler, errorHandler) {
+		SpellingService.getWordSuggestions(text, successHandler, errorHandler);
+	},
+
+	getCorrectionData: function() {
+		return {
+			word: this.state.word,
+			correctedWord: this.correctionWord,
+			examples: this.state.selectedExampleWords
+		}
+	},
+	
+	selectCorrection: function(word) {
+		delete this.state.selectedExampleWords[this.state.correctionWord];
+		this.state.selectedExampleWords[word] = true;
+		this.setState({
+			"correctionWord": word,
+			"correctionSearch": word,
+			"selectedExampleWords": this.state.selectedExampleWords
+		});
+		this.refs.correctionSearch.toggleResultsVisible();
+	},
+
+	
+	/* ******************************************* */
+	/* ** Functions for finding an EXAMPLE word ** */
+	/* ******************************************* */
+	
 	selectExampleWord: function(word) {
 		
 		this.state.selectedExampleWords[word] = true;
 		this.setState({
-			selectedExampleWords: this.state.selectedExampleWords
+			"selectedExampleWords": this.state.selectedExampleWords
 		})
-	},
-	
-	updateSuggestions: function() {
-		SpellingService.check(
-			this.state.word,
-			this.handleNewSuggestions.bind(this),
-			this.handleError.bind(this));
-	},
-	
-	handleNewSuggestions: function(data) {
-		if (data[0]) {
-			var newSuggestions = this.convertSuggestionsToComboData(data[0].suggestions);
-			this.setState({
-				"spellingSuggestions": newSuggestions
-			});
-		}
-		console.debug("data: ", data);
 	},
 	
 	changeSearchType: function(event) {
 		this.setState({
 			"searchType": event.target.value
 		});
-	},
-	
-	correctionChanged: function(label, value) {
-		this.removeExampleWord(this.state.correctionWord);
-		if (value) {
-			this.selectExampleWord(value);
-		}
-		this.setState({"correctionWord": value});
 	},
 	
 	exampleOptionSelected: function(word) {
@@ -114,14 +122,6 @@ module.exports = React.createClass({displayName: "exports",
 	
 	getExampleWords: function(text, successHandler, errorHandler) {
 		SpellingService.getExamples(this.state.searchType, text, successHandler, errorHandler);
-	},
-	
-	getCorrectionData: function() {
-		return {
-			word: this.state.word,
-			correctedWord: this.refs.suggestionsCombo.state._textValue,
-			examples: this.state.selectedExampleWords
-		}
 	},
 	
 	render: function() {

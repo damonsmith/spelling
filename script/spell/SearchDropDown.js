@@ -12,7 +12,7 @@ module.exports = React.createClass({
 	
 	getInitialState: function() {
 		return {
-			"searchText": "",
+			"searchText": this.props.searchText,
 			"resultsVisible": false,
 			"resultsLoading": false,
 			"resultsLoaded": false,
@@ -39,6 +39,14 @@ module.exports = React.createClass({
 	},
 	
 	componentWillReceiveProps: function(nextProps) {
+		var newState = {};
+		if ((typeof nextProps.searchText) === "string") {
+			newState.searchText = nextProps.searchText;			
+		}
+		if (nextProps.searchResultsList && nextProps.searchResultsList instanceof Array) {
+			newState.searchResultsList = nextProps.searchResultsList;
+		}
+		this.setState(newState);
 	},
 	
 	changeWord: function(event) {

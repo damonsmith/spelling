@@ -223,13 +223,14 @@ input.example-search {
 	background-repeat: no-repeat;
 }
 
+.correction-word .dropdown-list > div:hover {
+	background-image: url(images/tick.png);
+}
+
 .centering {
 	text-align: center;
 }
 
-.add-word-button {
-	
-}
 
 .results-display-lightbox {
 	position: absolute;
@@ -256,5 +257,10 @@ input.example-search {
 
 .results-display table tr > * {
 	padding: 0.5rem;
+}
+
+.search-drop-down {
+	display: inline-block;
+	position: relative;
 }
 
